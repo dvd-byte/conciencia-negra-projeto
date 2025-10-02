@@ -1,0 +1,94 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Hora de Aventura</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #ffeecf;
+    }
+    /* linha q separa */
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+    /* tamanho da separação do menu/pagina principal */
+    .menu {
+      width: 220px;
+      background: #ffcc00;
+      padding: 15px;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+    }
+    /* p deixar os links tipo um botão */
+    .menu a {
+      display: block;
+      padding: 8px;
+      margin: 6px 0;
+      background: white;
+      border-radius: 8px;
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    /* p mudar a cor do fundo do botão qnd passar o mouse */
+    .menu a:hover {
+      background: #ffeb99;
+    }
+    .conteudo {
+      flex: 1;
+      padding: 25px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+
+    <!--dividir o menu e a pagina principal ne-->
+  <div class="container">
+
+    <!-- bota o menu na pag -->
+    <div class="menu">
+      <h2> Hora de Aventura</h2>
+       <!-- aq ele ativa a function carregar(pagina) q ta na parte do JS -->
+      <a onclick="carregar('home.html')"> Início</a>
+      <a onclick="carregar('personagens.html')"> Personagens</a>
+      <a onclick="carregar('historia.html')"> História</a>
+      <a onclick="carregar('episodios.html')"> Episódios</a>
+    </div>
+
+    <!-- oq vai aparecer inicialmente -->
+    <div class="conteudo" id="conteudo">
+      <h1>Bem-vindo!</h1>
+      <p>Clique no menu para carregar as páginas.</p>
+    </div>
+  </div>
+
+     <!-- aq entra o JS -->
+  <script>
+    // esse async é p ele dar um tempo pra cada etapa do function funcionar antes de seguir
+    //  p etapa seguinte
+    async function carregar(pagina) {
+      const conteudo = document.getElementById("conteudo");
+      // esse getElementById serve p escolher onde o conteudo das paginas vai explodir 
+
+      try {
+        // esse bgl vai busacr o arquivo externo p explodir na tela principal
+        const resposta = await fetch(pagina);
+
+        // vai pegar o conteudo da pag que ele foi atras e guarda nessa
+        const html = await resposta.text();
+
+        // esse bgl carrega o conteudo guardado nessa pag
+        conteudo.innerHTML = html;
+      } 
+       // aq é p se der erro ele mostrar a msg q fiz na div
+      catch (erro) {
+        conteudo.innerHTML = "<p style='color:red'>Erro ao carregar a página.</p>";
+      }
+    }
+  </script>
+</body>
+</html>
